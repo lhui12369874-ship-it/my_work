@@ -1,0 +1,25 @@
+# 下载源码
+git clone https://github.com/doggystyle-star/real_PX4_yolov5.git
+
+# 编译
+
+cd catkin_ws_2
+catkin_make
+cd src/yolov5_ros/src
+chmod +x detect.py
+
+
+# ==================================================================================
+
+source ~/catkin_ws_2/devel/setup.bash
+
+1.打开摄像头（普通usb）： roslaunch usb_cam usb_cam-test.launch
+2.查看发布的话题：  rostopic list
+3.修改 /home/nvidia/catkin_ws/src/yolov5_ros/launch/yolov5.launch中的weights路径和订阅传入图像的路径
+  1) 下载.pt文件
+  2)  <arg name="weights" default="/home/nvidia/catkin_ws/src/yolov5_ros/src/yolov5/yolov5m.pt" />
+  3)  <arg name="input_image_topic" default="/usb_cam/image_raw" />
+4.启动配置文件： roslaunch yolov5_ros yolov5.launch
+5.启动跟踪程序： ~/catkin_ws/src/control$ python visual_servo_node1.py
+		python /home/nvidia/catkin_ws_2/src/control/visual_servo_node1.py
+6.查看话题的内容： rostopic echo /yolov5/detections
