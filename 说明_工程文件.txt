@@ -1,0 +1,33 @@
+# 每次修改重新编译
+
+cd ~/catkin_ws_2
+catkin_make
+cd src/yolov5_ros/src
+chmod +x detect.py
+
+
+# ==================================================================================
+# 目标检测
+source ~/catkin_ws_2/devel/setup.bash
+roslaunch yolov5_ros yolov5_front_cam.launch  (另外一个仿真系统的摄像头)
+
+source ~/catkin_ws_2/devel/setup.bash
+roslaunch yolov5_ros yolov5_px4.launch
+
+
+source ~/catkin_ws_2/devel/setup.bash
+roslaunch yolov5_ros yolov5_typhoon_h480_0.launch
+# 目标跟踪
+source ~/catkin_ws_2/devel/setup.bash
+python /home/nvidia/catkin_ws_2/src/control/visual_servo_node1.py /mavros/setpoint_velocity/cmd_vel_unstamped:=/cmd_vel
+
+source ~/catkin_ws_2/devel/setup.bash
+python /home/nvidia/catkin_ws_2/src/control/visual_servo_node1.py /mavros/setpoint_velocity/cmd_vel_unstamped:=/iris_0/mavros/setpoint_velocity/cmd_vel_unstamped
+
+source ~/catkin_ws_2/devel/setup.bash
+python /home/nvidia/catkin_ws_2/src/control/visual_servo_node1.py /mavros/setpoint_velocity/cmd_vel_unstamped:=/typhoon_h480_0/mavros/setpoint_velocity/cmd_vel
+
+source ~/catkin_ws_2/devel/setup.bash
+python /home/nvidia/catkin_ws_2/src/control/visual_servo_node1.py typhoon_h480 0
+查看发布的话题：  rostopic list
+
